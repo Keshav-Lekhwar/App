@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Clear – quit any habit, one day at a time</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eef3f4;--surface:#fff;--ink:#17262e;--mute:#5b6f78;--line:#d3dee1;--sea:#1f7a80;--sea-d:#155a5f;--sun:#e8a92c;--rose:#c4493f;--ring:#d9e6e8;
+ box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1b21;--surface:#17262e;--ink:#e8f0f2;--mute:#93a8b0;--line:#2a3d46;--sea:#4cc0c7;--sea-d:#8fdde1;--sun:#f2b84b;--rose:#ef7d73;--ring:#24373f;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0f1b21;--surface:#17262e;--ink:#e8f0f2;--mute:#93a8b0;--line:#2a3d46;--sea:#4cc0c7;--sea-d:#8fdde1;--sun:#f2b84b;--rose:#ef7d73;--ring:#24373f;color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.55 Figtree,system-ui,sans-serif}
+h1,h2,h3{font-family:'Bricolage Grotesque',Figtree,system-ui,sans-serif;line-height:1.1;margin:0}
+main{max-width:640px;margin:0 auto;padding:24px 18px 64px}
+.brand{font:800 20px 'Bricolage Grotesque',sans-serif;color:var(--sea);margin-bottom:20px;display:flex;justify-content:space-between;align-items:center}
+button{font:inherit;cursor:pointer;border:0;border-radius:12px;padding:12px 18px;font-weight:600}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+.primary{background:var(--sea);color:#fff}.primary:hover{background:var(--sea-d)}
+:root:not([data-theme="light"]) .primary{color:#0f1b21}
+.ghost{background:transparent;color:var(--mute);border:1px solid var(--line)}
+.warn{background:transparent;color:var(--rose);border:1px solid var(--rose)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;margin-top:14px}
+label{display:block;font-weight:600;margin:16px 0 6px}
+input,select,textarea{width:100%;font:inherit;padding:11px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{background:var(--bg);border:1px solid var(--line);color:var(--ink);padding:9px 14px;border-radius:99px;font-weight:500}
+.chip[aria-pressed="true"]{background:var(--sea);border-color:var(--sea);color:#fff}
+:root:not([data-theme="light"]) .chip[aria-pressed="true"]{color:#0f1b21}
+.hero{text-align:center;padding:8px 0 4px}
+.hero h1{font-size:clamp(26px,6vw,34px);font-weight:700}
+.ringwrap{position:relative;width:min(300px,82vw);margin:18px auto 4px}
+.ringwrap svg{width:100%;display:block;transform:rotate(-90deg)}
+.ringtxt{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.days{font:800 78px/1 'Bricolage Grotesque',sans-serif;font-variant-numeric:tabular-nums}
+.sub{color:var(--mute);font-variant-numeric:tabular-nums}
+.next{color:var(--mute);font-size:15px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px}
+.stat b{display:block;font:700 26px 'Bricolage Grotesque',sans-serif}
+.stat span{color:var(--mute);font-size:14px}
+.actions{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+.actions .primary{flex:1 1 220px;padding:16px;font-size:17px}
+.reason{border-left:4px solid var(--sun);padding-left:14px;font-size:18px;font-family:'Bricolage Grotesque',sans-serif;font-weight:500}
+.ms{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.ms span{padding:6px 12px;border-radius:99px;border:1px solid var(--line);color:var(--mute);font-size:14px}
+.ms span.done{background:var(--sun);border-color:var(--sun);color:#17262e;font-weight:600}
+.log li{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid var(--line);font-size:15px;list-style:none}
+.log{padding:0;margin:8px 0 0}
+dialog{border:0;border-radius:20px;padding:24px;max-width:460px;width:calc(100% - 28px);background:var(--surface);color:var(--ink)}
+dialog::backdrop{background:rgba(10,20,25,.6)}
+.breath{width:150px;height:150px;border-radius:50%;background:var(--sea);opacity:.85;margin:22px auto;animation:b 8s ease-in-out infinite}
+@keyframes b{0%,100%{transform:scale(.6)}50%{transform:scale(1)}}
+@media (prefers-reduced-motion:reduce){.breath{animation:none}}
+.clock{font:800 44px 'Bricolage Grotesque',sans-serif;text-align:center;font-variant-numeric:tabular-nums}
+.tips{padding-left:18px;color:var(--mute)}
+.note{font-size:14px;color:var(--mute);margin-top:24px}
+.hmw{overflow-x:auto;padding-bottom:6px}.hm{display:grid;grid-template-rows:repeat(7,16px);grid-auto-flow:column;grid-auto-columns:16px;gap:4px;width:max-content}
+.hm i{border-radius:4px;background:var(--ring)}.hm i.l1{background:var(--sea);opacity:.35}.hm i.l2{background:var(--sea);opacity:.55}.hm i.l3{background:var(--sea);opacity:.8}.hm i.l4{background:var(--sea)}.hm i.x{background:var(--rose)}.hm i.f{visibility:hidden}.hm i.t{outline:2px solid var(--sun)}
+.leg{display:flex;gap:6px;align-items:center;font-size:13px;color:var(--mute);margin-top:8px;flex-wrap:wrap}.leg i{width:12px;height:12px;border-radius:3px;display:inline-block;background:var(--sea)}
+.reel{height:min(60vh,440px);overflow-y:auto;scroll-snap-type:y mandatory;border-radius:16px;margin-top:14px}
+.rc{height:100%;scroll-snap-align:start;padding:24px;background:var(--bg);border:1px solid var(--line);border-radius:16px;display:flex;flex-direction:column;justify-content:center;gap:12px}
+.rc h2{font-size:30px}.rc p{margin:0;font-size:18px}.rc small{color:var(--mute)}
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+<main>
+<div class="brand"><span>Clear</span><button class="ghost" id="themeBtn" aria-label="Toggle light or dark mode" style="padding:6px 12px">Theme</button></div>
+
+<section id="setup" class="hidden">
+  <h1 style="font-size:32px">What are you leaving behind?</h1>
+  <p style="color:var(--mute)">Any habit counts. Pick one, set the moment you stopped, and Clear keeps count.</p>
+  <div class="chips" id="chips" role="group" aria-label="Habit"></div>
+  <input id="custom" placeholder="Or type your own" aria-label="Custom habit" style="margin-top:10px">
+  <label for="when">When did you quit?</label>
+  <input type="datetime-local" id="when">
+  <label for="cost">What did it cost you per day? <span style="font-weight:400;color:var(--mute)">(optional, in ₹, $, or any currency)</span></label>
+  <input type="number" id="cost" min="0" step="any" placeholder="e.g. 250">
+  <label for="reason">Why are you quitting?</label>
+  <textarea id="reason" rows="3" placeholder="Your own words. You’ll see this when things get hard."></textarea>
+  <div class="actions"><button class="primary" id="start">Start my count</button></div>
+</section>
+
+<section id="dash" class="hidden">
+  <div class="hero">
+    <h1 id="title"></h1>
+    <div class="ringwrap">
+      <svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="54" fill="none" stroke="var(--ring)" stroke-width="8"/><circle id="arc" cx="60" cy="60" r="54" fill="none" stroke="var(--sun)" stroke-width="8" stroke-linecap="round" stroke-dasharray="339.3" stroke-dashoffset="339.3"/></svg>
+      <div class="ringtxt"><div class="days" id="d">0</div><div id="dl" class="sub">days</div><div class="sub" id="hms"></div></div>
+    </div>
+    <div class="next" id="next"></div>
+  </div>
+  <div class="actions"><button class="primary" id="urge">I have an urge right now</button><button class="ghost" id="facts">Quick facts: why I quit</button></div>
+  <div class="grid">
+    <div class="stat"><b id="saved">–</b><span>saved so far</span></div>
+    <div class="stat"><b id="beat">0</b><span>urges you rode out</span></div>
+    <div class="stat"><b id="best">0d</b><span>longest stretch</span></div>
+    <div class="stat"><b id="slipn">0</b><span>slips (they don’t erase progress)</span></div>
+  </div>
+  <div class="card"><div class="reason" id="why"></div></div>
+  <div class="card"><h3>Streak map</h3><p class="sub" id="mapsum" style="margin:4px 0 12px"></p><div class="hmw"><div class="hm" id="hm" role="img"></div></div><div class="leg">Fewer<i style="opacity:.35"></i><i style="opacity:.55"></i><i style="opacity:.8"></i><i></i>Longer streak<i style="background:var(--rose);margin-left:10px"></i>Slip</div></div>
+  <div class="card"><h3>Milestones</h3><div class="ms" id="ms"></div></div>
+  <div class="card"><h3>Craving log</h3>
+    <label for="lvl" style="margin-top:10px">Strength: <span id="lvlv">5</span>/10</label>
+    <input type="range" id="lvl" min="1" max="10" value="5">
+    <label for="trig">What set it off?</label>
+    <select id="trig"><option>Stress</option><option>Boredom</option><option>Social situation</option><option>Tiredness</option><option>Sadness or anxiety</option><option>A place or routine</option><option>Other</option></select>
+    <div class="actions"><button class="ghost" id="logc">Save craving</button></div>
+    <p id="pattern" class="note" style="margin-top:12px"></p>
+    <ul class="log" id="log"></ul>
+  </div>
+  <div class="actions" style="margin-top:20px"><button class="warn" id="slip">I slipped</button><button class="ghost" id="reset">Start over</button></div>
+  <p class="note">Clear is a self-help tool, not medical care. Stopping alcohol, opioids, or benzodiazepines suddenly can be dangerous, so talk to a doctor first. If you feel unsafe or in crisis, contact your local emergency number or a helpline right away.</p>
+</section>
+
+<dialog id="reelDlg">
+  <h3 id="reelT"></h3>
+  <div class="reel" id="reel" tabindex="0" aria-label="Swipe up for the next fact"></div>
+  <div class="actions"><button class="primary" id="rnext" style="padding:12px">Next fact</button><button class="ghost" id="rclose">Close</button></div>
+  <p class="note" style="margin-top:12px">General information, not medical advice.</p>
+</dialog>
+
+<dialog id="urgeDlg">
+  <h2>Ride it out for 10 minutes</h2>
+  <p style="color:var(--mute);margin:6px 0 0">Urges peak and fade. Breathe with the circle: in as it grows, out as it shrinks.</p>
+  <div class="breath" aria-hidden="true"></div>
+  <div class="clock" id="clock">10:00</div>
+  <ul class="tips"><li>Drink a glass of water.</li><li>Leave the room or go outside.</li><li>Message someone you trust.</li><li>Remember why you started.</li></ul>
+  <div class="actions"><button class="primary" id="done" style="padding:12px">I got through it</button><button class="ghost" id="close">Close</button></div>
+</dialog>
+</main>
+
+<script>
+const HABITS=['Smoking','Vaping','Alcohol','Gambling','Social media','Sugar','Gaming','Caffeine'];
+const MS=[[1,'1 day'],[3,'3 days'],[7,'1 week'],[14,'2 weeks'],[30,'1 month'],[60,'2 months'],[90,'3 months'],[180,'6 months'],[365,'1 year']];
+const $=id=>document.getElementById(id);
+let S=null,pick=null,tick=null,ut=null;
+function load(){try{const r=localStorage.getItem('clear-v1');return r?JSON.parse(r):null}catch(e){return null}}
+function save(){try{localStorage.setItem('clear-v1',JSON.stringify(S))}catch(e){}}
+function toLocal(d){const p=n=>String(n).padStart(2,'0');return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+'T'+p(d.getHours())+':'+p(d.getMinutes())}
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+
+function showSetup(){
+  $('dash').classList.add('hidden');$('setup').classList.remove('hidden');
+  $('when').value=toLocal(new Date());
+  const c=$('chips');c.innerHTML='';
+  HABITS.forEach(h=>{const b=document.createElement('button');b.className='chip';b.textContent=h;b.setAttribute('aria-pressed','false');
+    b.onclick=()=>{pick=h;$('custom').value='';[...c.children].forEach(x=>x.setAttribute('aria-pressed',x===b))};c.appendChild(b)});
+}
+$('custom').oninput=()=>{if($('custom').value){pick=null;[...$('chips').children].forEach(x=>x.setAttribute('aria-pressed','false'))}};
+$('start').onclick=()=>{
+  const habit=$('custom').value.trim()||pick;
+  if(!habit){alert('Choose a habit or type your own.');return}
+  let t=new Date($('when').value).getTime();if(isNaN(t)||t>Date.now())t=Date.now();
+  S={habit,start:t,cost:parseFloat($('cost').value)||0,reason:$('reason').value.trim(),best:0,slips:[],cravings:[],beat:0};
+  save();showDash();
+};
+
+function showDash(){
+  $('setup').classList.add('hidden');$('dash').classList.remove('hidden');
+  $('title').textContent='Free from '+S.habit.toLowerCase()+' for';
+  $('why').textContent=S.reason?'“'+S.reason+'”':'Add your reason by starting over. It helps on hard days.';
+  renderLog();renderMap();update();clearInterval(tick);tick=setInterval(update,1000);
+}
+function update(){
+  const ms=Date.now()-S.start,sec=Math.floor(ms/1000),days=ms/864e5;
+  const d=Math.floor(days),h=Math.floor(sec/3600)%24,m=Math.floor(sec/60)%60,s=sec%60;
+  $('d').textContent=d;$('dl').textContent=d===1?'day':'days';
+  $('hms').textContent=[h,m,s].map(n=>String(n).padStart(2,'0')).join(':');
+  const nx=MS.find(x=>x[0]>days),prev=[...MS].reverse().find(x=>x[0]<=days);
+  if(nx){const a=prev?prev[0]:0;$('arc').style.strokeDashoffset=339.3*(1-(days-a)/(nx[0]-a));
+    const left=nx[0]-days;$('next').textContent='Next milestone: '+nx[1]+' ('+(left<1?Math.ceil(left*24)+' hours':Math.ceil(left)+' days')+' to go)'}
+  else{$('arc').style.strokeDashoffset=0;$('next').textContent='You’ve passed a full year. That’s huge.'}
+  $('saved').textContent=S.cost?(Math.round(days*S.cost)).toLocaleString():'–';
+  if(dk(new Date())!==lastK)renderMap();
+  $('beat').textContent=S.beat;$('best').textContent=Math.floor(Math.max(S.best,ms)/864e5)+'d';$('slipn').textContent=S.slips.length;
+  $('ms').innerHTML=MS.map(x=>'<span class="'+(days>=x[0]?'done':'')+'">'+x[1]+'</span>').join('');
+}
+function renderLog(){
+  const c=S.cravings.slice(-6).reverse();
+  $('log').innerHTML=c.map(x=>'<li><span>'+esc(x.trig)+'</span><span>'+x.lvl+'/10 · '+new Date(x.t).toLocaleDateString()+'</span></li>').join('');
+  if(S.cravings.length>=3){const n={};S.cravings.forEach(x=>n[x.trig]=(n[x.trig]||0)+1);
+    const top=Object.entries(n).sort((a,b)=>b[1]-a[1])[0];$('pattern').textContent='Your most common trigger so far: '+top[0].toLowerCase()+'. Plan one swap for it.'}
+  else $('pattern').textContent='Log a few cravings and Clear will show your most common trigger.';
+}
+$('lvl').oninput=()=>$('lvlv').textContent=$('lvl').value;
+$('logc').onclick=()=>{S.cravings.push({t:Date.now(),lvl:+$('lvl').value,trig:$('trig').value});save();renderLog()};
+$('slip').onclick=()=>{
+  if(!confirm('A slip is information, not failure. Restart your count from now? Your longest stretch is kept.'))return;
+  const n=Date.now();S.best=Math.max(S.best,n-S.start);(S.stretches=S.stretches||[]).push({s:S.start,e:n});S.slips.push(n);S.start=n;save();update();renderMap();openReel(true);
+};
+$('reset').onclick=()=>{if(confirm('Erase everything and start over?')){S=null;try{localStorage.removeItem('clear-v1')}catch(e){}clearInterval(tick);showSetup()}};
+
+let lastK='';
+function dk(d){return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()}
+function renderMap(){
+  const lv={},W=17,spans=(S.stretches||[]).concat([{s:S.start,e:Date.now()}]);
+  spans.forEach(sp=>{const d=new Date(sp.s);d.setHours(0,0,0,0);for(let i=0;d.getTime()<=sp.e;i++,d.setDate(d.getDate()+1))lv[dk(d)]=i<1?1:i<3?2:i<7?3:4});
+  S.slips.forEach(t=>lv[dk(new Date(t))]='x');
+  const now=new Date(),t0=new Date(now);t0.setHours(0,0,0,0);
+  const g=new Date(t0);g.setDate(g.getDate()-((W-1)*7+t0.getDay()));
+  let h='',clean=0;
+  for(let i=0;i<W*7;i++){const d=new Date(g);d.setDate(g.getDate()+i);const k=dk(d),v=lv[k];
+    if(d>t0){h+='<i class="f"></i>';continue}
+    if(typeof v==='number')clean++;
+    h+='<i class="'+(v==='x'?'x':v?'l'+v:'')+(k===dk(t0)?' t':'')+'" title="'+d.toLocaleDateString()+(v==='x'?': slip':v?': clean':'')+'"></i>'}
+  $('hm').innerHTML=h;lastK=dk(now);
+  const sum=clean+' clean days in the last '+W+' weeks';$('mapsum').textContent=sum;$('hm').setAttribute('aria-label',sum);
+}
+const FACTS=[
+[/gambl|bet|casino/,[["The house always wins","Games are built with a built-in edge, so losses are mathematically expected over time."],["Near misses feel like wins","Almost-wins light up the brain’s reward circuits and keep you playing."],["It’s a recognized addiction","Gambling disorder is classed as a behavioral addiction in the DSM-5."],["The mental toll is real","Problem gambling is linked to depression, anxiety and suicidal thoughts. If it feels heavy, talk to someone today."]]],
+[/smok|cigar|tobacco|nicotine/,[["70+ cancer-causing chemicals","Tobacco smoke contains over 7,000 chemicals, and at least 70 are known to cause cancer (CDC)."],["Hooked in seconds","Nicotine reaches the brain fast and floods it with dopamine, so the brain learns to demand it."],["Your heart pays first","Smoking raises the risk of heart attack and stroke and damages blood vessels (WHO, CDC)."],["8 million lives a year","Tobacco kills more than 8 million people every year worldwide (WHO)."]]],
+[/vap|e-cig/,[["Not just water vapor","Vape aerosol can contain nicotine, ultrafine particles and metals like nickel and lead (CDC)."],["Young brains are most at risk","Nicotine can harm brain development until about age 25, affecting attention and mood."],["Dependence builds fast","Some devices deliver as much nicotine as a pack of cigarettes."]]],
+[/alcohol|drink|beer|wine|liquor/,[["No safe level","WHO says no amount of alcohol is risk-free. It is a Group 1 carcinogen."],["Linked to 7+ cancers","Including breast, liver, mouth, throat and bowel cancer (WHO)."],["Worse sleep","Alcohol can knock you out, but it cuts REM sleep and wakes you up later."],["Your liver takes the hit","Heavy drinking over time can cause fatty liver, hepatitis and cirrhosis."],["Quit heavy drinking safely","Stopping suddenly after heavy use can cause dangerous withdrawal. Ask a doctor first."]]],
+[/social|insta|tiktok|scroll|phone|youtube/,[["Built like a slot machine","Infinite scroll and unpredictable rewards use the same loop as gambling."],["Focus costs add up","After an interruption it can take 20+ minutes to fully refocus (UC Irvine research)."],["Sleep and mood suffer","Heavy use is linked to poorer sleep and more anxiety or low mood, though cause and effect is still studied."]]],
+[/sugar|sweet|candy|soda/,[["Limit is lower than you think","WHO advises keeping free sugars under 10% of daily energy, and ideally under 5%."],["Slow damage","Frequent high sugar intake is linked to weight gain, type 2 diabetes and tooth decay."],["Spikes and crashes","Fast blood sugar swings can leave you tired and craving more."]]],
+[/gam(e|ing)|video/,[["Officially recognized","WHO lists gaming disorder in the ICD-11."],["Sleep takes the loss","Late-night sessions cut sleep, which hurts mood, memory and focus."],["Hours disappear","Long sessions replace movement, study, work and time with people."]]],
+[/caffe|coffee|energy drink/,[["It steals your sleep","Caffeine taken even 6 hours before bed can cut sleep time (Sleep Medicine study)."],["Withdrawal is real","Missed doses can bring headaches, fatigue and low mood."],["Mind the dose","Around 400 mg a day is the usual upper guide for adults (FDA). More can cause jitters and a racing heart."]]]
+];
+const GEN=[["Your brain adapts","Repeated use trains the reward system to need more for less pleasure."],["It costs more than money","Addictions tend to eat time, sleep, relationships and health a little at a time."],["Cravings are short","Most urges peak and fade within minutes if you don’t act on them."]];
+function openReel(slip){
+  const h=S.habit.toLowerCase(),f=(FACTS.find(x=>x[0].test(h))||[0,GEN])[1].slice();
+  f.push(slip?["One slip is not the end","Around 40–60% of people treated for addiction relapse at some point (NIDA), like other chronic conditions. Your best streak is kept. Today is day 1 again."]:["Every clean day counts","You’ve already ridden out "+S.beat+" urges. Keep going."]);
+  $('reelT').textContent=slip?'It happens. Here’s what you’re protecting yourself from.':'Why you’re leaving '+S.habit.toLowerCase()+' behind';
+  $('reel').innerHTML=f.map((x,i)=>'<article class="rc"><small>'+(i+1)+' / '+f.length+'</small><h2>'+esc(x[0])+'</h2><p>'+esc(x[1])+'</p></article>').join('');
+  $('reel').scrollTop=0;$('reelDlg').showModal();
+}
+$('facts').onclick=()=>openReel(false);
+$('rnext').onclick=()=>{const r=$('reel');r.scrollBy({top:r.clientHeight,behavior:'smooth'})};
+$('rclose').onclick=()=>$('reelDlg').close();
+function fmt(n){return Math.floor(n/60)+':'+String(n%60).padStart(2,'0')}
+$('urge').onclick=()=>{
+  let end=Date.now()+600000;$('urgeDlg').showModal();$('clock').textContent='10:00';clearInterval(ut);
+  ut=setInterval(()=>{const l=Math.max(0,Math.round((end-Date.now())/1000));$('clock').textContent=fmt(l);if(!l){clearInterval(ut);$('clock').textContent='Done. Well done.'}},500);
+};
+$('done').onclick=()=>{S.beat++;save();update();clearInterval(ut);$('urgeDlg').close()};
+$('close').onclick=()=>{clearInterval(ut);$('urgeDlg').close()};
+$('themeBtn').onclick=()=>{const r=document.documentElement;const dark=getComputedStyle(r).colorScheme==='dark'||r.dataset.theme==='dark';r.dataset.theme=dark?'light':'dark'};
+
+S=load();S?showDash():showSetup();
+</script>
+</body>
+</html>
